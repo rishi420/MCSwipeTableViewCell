@@ -1,7 +1,7 @@
 MCSwipeTableViewCell
 --------------------
 
-<p align="center"><img src="https://raw.github.com/alikaragoz/MCSwipeTableViewCell/master/github-assets/mcswipe-front.png"/></p>
+<p align="center"><img src="https://raw.github.com/rishi420/MCSwipeTableViewCell/master/github-assets/mcswipe-front.png"/></p>
 
 An Effort to show how one would implement a TableViewCell like the one we can see in the very well executed [Mailbox](http://www.mailboxapp.com/) iOS app. 
 
@@ -9,7 +9,7 @@ An Effort to show how one would implement a TableViewCell like the one we can se
 ###Switch & Exit Mode
 The exit mode (`MCSwipeTableViewCellModeExit`) is the original behavior we can see in the **Mailbox**app. Swiping the cell should make it disappear.
 
-<p align="center"><img src="https://raw.github.com/alikaragoz/MCSwipeTableViewCell/master/github-assets/mcswipe-exit.gif"/></p>
+<p align="center"><img src="https://raw.github.com/rishi420/MCSwipeTableViewCell/master/github-assets/mcswipe-exit.gif"/></p>
 
 ##Usage
 
