@@ -31,6 +31,8 @@
 		7C23B01617DB87F100771FA0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B9CAA5E16E2459D00F376BC /* Foundation.framework */; };
 		7C23B03817DB884A00771FA0 /* MCSwipeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9CAA9216E2469900F376BC /* MCSwipeTableViewCell.m */; };
 		7C23B03917DB885D00771FA0 /* MCSwipeTableViewCell.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B9CAA9116E2469900F376BC /* MCSwipeTableViewCell.h */; };
+		B0F01C7D1845FD2700C1396A /* MCMyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F01C7B1845FD2700C1396A /* MCMyCell.m */; };
+		B0F01C7E1845FD2700C1396A /* MCMyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B0F01C7C1845FD2700C1396A /* MCMyCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +79,9 @@
 		7C23B01517DB87F100771FA0 /* libMCSwipeTableViewCell.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMCSwipeTableViewCell.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C23B01917DB87F100771FA0 /* MCSwipeTableViewCell-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MCSwipeTableViewCell-Prefix.pch"; sourceTree = "<group>"; };
 		7C23B02317DB87F100771FA0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		B0F01C7A1845FD2700C1396A /* MCMyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyCell.h; sourceTree = "<group>"; };
+		B0F01C7B1845FD2700C1396A /* MCMyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyCell.m; sourceTree = "<group>"; };
+		B0F01C7C1845FD2700C1396A /* MCMyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MCMyCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +140,9 @@
 		7B9CAA6216E2459D00F376BC /* MCSwipe Demo */ = {
 			isa = PBXGroup;
 			children = (
+				B0F01C7A1845FD2700C1396A /* MCMyCell.h */,
+				B0F01C7B1845FD2700C1396A /* MCMyCell.m */,
+				B0F01C7C1845FD2700C1396A /* MCMyCell.xib */,
 				7B9CAA6B16E2459D00F376BC /* MCAppDelegate.h */,
 				7B9CAA6C16E2459D00F376BC /* MCAppDelegate.m */,
 				7B9CAA8D16E2465500F376BC /* MCTableViewController.h */,
@@ -294,6 +302,7 @@
 				7B9CAA8716E245F900F376BC /* cross@2x.png in Resources */,
 				7B9CAA8816E245F900F376BC /* list.png in Resources */,
 				7B9CAA8916E245F900F376BC /* list@2x.png in Resources */,
+				B0F01C7E1845FD2700C1396A /* MCMyCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +317,7 @@
 				7B9CAA6D16E2459D00F376BC /* MCAppDelegate.m in Sources */,
 				7B9CAA8F16E2465500F376BC /* MCTableViewController.m in Sources */,
 				7B9CAA9316E2469900F376BC /* MCSwipeTableViewCell.m in Sources */,
+				B0F01C7D1845FD2700C1396A /* MCMyCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,8 +407,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCSwipe Demo/MCSwipe Demo-Prefix.pch";
 				INFOPLIST_FILE = "MCSwipe Demo/MCSwipe Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "Swipe Demo";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -409,8 +420,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCSwipe Demo/MCSwipe Demo-Prefix.pch";
 				INFOPLIST_FILE = "MCSwipe Demo/MCSwipe Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "Swipe Demo";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

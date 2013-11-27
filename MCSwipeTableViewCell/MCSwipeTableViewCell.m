@@ -169,16 +169,16 @@ secondStateIconName:(NSString *)secondIconName
     UIGestureRecognizerState state = [gesture state];
     CGPoint translation = [gesture translationInView:self];
     CGPoint velocity = [gesture velocityInView:self];
-    CGFloat percentage = [self percentageWithOffset:CGRectGetMinX(self.contentView.frame) relativeToWidth:CGRectGetWidth(self.bounds)];
+    CGFloat percentage = [self percentageWithOffset:CGRectGetMinX(self.frame) relativeToWidth:CGRectGetWidth(self.bounds)];
     NSTimeInterval animationDuration = [self animationDurationWithVelocity:velocity];
     _direction = [self directionWithPercentage:percentage];
     
     if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged) {
         _isDragging = YES;
         
-        CGPoint center = {self.contentView.center.x + translation.x, self.contentView.center.y};
-        [self.contentView setCenter:center];
-        [self animateWithOffset:CGRectGetMinX(self.contentView.frame)];
+        CGPoint center = {self.center.x + translation.x, self.center.y};
+        [self setCenter:center];
+        [self animateWithOffset:CGRectGetMinX(self.frame)];
         [gesture setTranslation:CGPointZero inView:self];
         
         // Notifying the delegate that we are dragging with an offset percentage
@@ -474,7 +474,7 @@ secondStateIconName:(NSString *)secondIconName
         origin = CGRectGetWidth(self.bounds);
     
     CGFloat percentage = [self percentageWithOffset:origin relativeToWidth:CGRectGetWidth(self.bounds)];
-    CGRect rect = self.contentView.frame;
+    CGRect rect = self.frame;
     rect.origin.x = origin;
     
     // Color
@@ -489,7 +489,7 @@ secondStateIconName:(NSString *)secondIconName
     }
     
     [UIView animateWithDuration:duration delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-        [self.contentView setFrame:rect];
+        [self setFrame:rect];
         [_slidingImageView setAlpha:0];
         [self slideImageWithPercentage:percentage imageName:_currentImageName isDragging:self.shouldAnimatesIcons];
     } completion:^(BOOL finished) {
@@ -502,9 +502,9 @@ secondStateIconName:(NSString *)secondIconName
     
     [UIView animateWithDuration:kMCBounceDuration1 delay:0 options:(UIViewAnimationOptionCurveEaseOut) animations:^{
         
-        CGRect frame = self.contentView.frame;
+        CGRect frame = self.frame;
         frame.origin.x = -bounceDistance;
-        [self.contentView setFrame:frame];
+        [self setFrame:frame];
         [_slidingImageView setAlpha:0.0];
         [self slideImageWithPercentage:0 imageName:_currentImageName isDragging:NO];
         
@@ -514,9 +514,9 @@ secondStateIconName:(NSString *)secondIconName
     } completion:^(BOOL finished1) {
         
         [UIView animateWithDuration:kMCBounceDuration2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            CGRect frame = self.contentView.frame;
+            CGRect frame = self.frame;
             frame.origin.x = 0;
-            [self.contentView setFrame:frame];
+            [self setFrame:frame];
             
             // Clearing the indicator view
             _colorIndicatorView.backgroundColor = [UIColor clearColor];

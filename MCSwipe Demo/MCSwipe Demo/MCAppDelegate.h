@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSUInteger const kMCNumItems = 8;
+
 @interface MCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property(strong, nonatomic) UIWindow *window;

@@ -6,15 +6,14 @@
 //  Copyright (c) 2013 Mad Castle. All rights reserved.
 //
 
-#import "MCSwipeTableViewCell.h"
+#import "MCMyCell.h"
 #import "MCTableViewController.h"
 
 static NSUInteger const kMCNumItems = 8;
 
-@interface MCTableViewController () <MCSwipeTableViewCellDelegate>
-
-@property(nonatomic, assign) NSUInteger nbItems;
-
+@interface MCTableViewController () <MCSwipeTableViewCellDelegate, MCMyCellDelegate>
+@property (nonatomic, assign) NSUInteger nbItems;
+@property (nonatomic, retain) MCMyCell *longPressedCell;
 @end
 
 @implementation MCTableViewController
@@ -37,6 +36,9 @@ static NSUInteger const kMCNumItems = 8;
     UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     [backgroundView setBackgroundColor:[UIColor colorWithRed:227.0 / 255.0 green:227.0 / 255.0 blue:227.0 / 255.0 alpha:1.0]];
     [self.tableView setBackgroundView:backgroundView];
+    [self.tableView setEditing:YES animated:NO];
+    self.tableView.allowsSelectionDuringEditing = YES;
+    self.tableView.allowsMultipleSelection = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,106 +56,48 @@ static NSUInteger const kMCNumItems = 8;
     return _nbItems;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"Cell";
+    MCMyCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    MCSwipeTableViewCell *cell = [[MCSwipeTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    
-    [cell setDelegate:self];
-    [cell setFirstStateIconName:@"check.png"
-                     firstColor:[UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0]
-            secondStateIconName:@"cross.png"
-                    secondColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
-                  thirdIconName:@"clock.png"
-                     thirdColor:[UIColor colorWithRed:254.0 / 255.0 green:217.0 / 255.0 blue:56.0 / 255.0 alpha:1.0]
-                 fourthIconName:@"list.png"
-                    fourthColor:[UIColor colorWithRed:206.0 / 255.0 green:149.0 / 255.0 blue:98.0 / 255.0 alpha:1.0]];
-    
-    [cell.contentView setBackgroundColor:[UIColor whiteColor]];
-    
-    // Setting the default inactive state color to the tableView background color
-    [cell setDefaultColor:self.tableView.backgroundView.backgroundColor];
-    
-    //
-    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-
-    if (indexPath.row % kMCNumItems == 0) {
-        [cell.textLabel setText:@"Switch Mode Cell"];
-        [cell.detailTextLabel setText:@"Swipe to switch"];
-        cell.mode = MCSwipeTableViewCellModeSwitch;
-    }
-    
-    else if (indexPath.row % kMCNumItems == 1) {
-        [cell.textLabel setText:@"Exit Mode Cell"];
-        [cell.detailTextLabel setText:@"Swipe to delete"];
-        cell.mode = MCSwipeTableViewCellModeExit;
-    }
-    
-    else if (indexPath.row % kMCNumItems == 2) {
-        [cell.textLabel setText:@"Mixed Mode Cell"];
-        [cell.detailTextLabel setText:@"Swipe to switch or delete"];
-        cell.modeForState1 = MCSwipeTableViewCellModeSwitch;
-        cell.modeForState2 = MCSwipeTableViewCellModeExit;
-        cell.modeForState3 = MCSwipeTableViewCellModeSwitch;
-        cell.modeForState4 = MCSwipeTableViewCellModeExit;
-        cell.shouldAnimatesIcons = YES;
-    }
-    
-    else if (indexPath.row % kMCNumItems == 3) {
-        [cell.textLabel setText:@"Unanimated Icons"];
-        [cell.detailTextLabel setText:@"Swipe"];
-        cell.mode = MCSwipeTableViewCellModeSwitch;
+    if (cell == nil) {
+        cell = [[NSBundle mainBundle] loadNibNamed:@"MCMyCell" owner:self options:nil][0];
+        cell.enableLongPress = YES;
+        cell.delegate = self;
         cell.shouldAnimatesIcons = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    else if (indexPath.row % kMCNumItems == 4) {
-        [cell.textLabel setText:@"Disabled right swipe"];
-        [cell.detailTextLabel setText:@"Swipe"];
-        [cell setFirstStateIconName:nil
-                         firstColor:nil
-                secondStateIconName:nil
-                        secondColor:nil
-                      thirdIconName:@"clock.png"
-                         thirdColor:[UIColor colorWithRed:254.0 / 255.0 green:217.0 / 255.0 blue:56.0 / 255.0 alpha:1.0]
-                     fourthIconName:@"list.png"
-                        fourthColor:[UIColor colorWithRed:206.0 / 255.0 green:149.0 / 255.0 blue:98.0 / 255.0 alpha:1.0]];
-
-        
-    }
-    
-    else if (indexPath.row % kMCNumItems == 5) {
-        [cell.textLabel setText:@"Disabled left swipe"];
-        [cell.detailTextLabel setText:@"Swipe"];
-        [cell setFirstStateIconName:@"check.png"
-                         firstColor:[UIColor colorWithRed:85.0 / 255.0 green:213.0 / 255.0 blue:80.0 / 255.0 alpha:1.0]
-                secondStateIconName:@"cross.png"
-                        secondColor:[UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0]
-                      thirdIconName:nil
-                         thirdColor:nil
-                     fourthIconName:nil
-                        fourthColor:nil];
-    }
-    
-    else if (indexPath.row % kMCNumItems == 6) {
-        [cell.textLabel setText:@"Small triggers"];
-        [cell.detailTextLabel setText:@"Using 10% and 50%"];
-        cell.firstTrigger = 0.1;
-        cell.secondTrigger = 0.5;
-    }
-    
-    else if (indexPath.row % kMCNumItems == 7) {
-        [cell.textLabel setText:@"Small triggers"];
-        [cell.detailTextLabel setText:@"and unanimated icons"];
-        cell.firstTrigger = 0.1;
-        cell.secondTrigger = 0.5;
-        cell.shouldAnimatesIcons = NO;
-    }
-    
+    cell.testLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80.0;
+}
+- (BOOL) tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [(MCMyCell *)cell willAppear];
 }
 
 #pragma mark - Table view delegate
@@ -161,6 +105,11 @@ static NSUInteger const kMCNumItems = 8;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MCTableViewController *tableViewController = [[MCTableViewController alloc] init];
     [self.navigationController pushViewController:tableViewController animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 #pragma mark - MCSwipeTableViewCellDelegate
@@ -187,7 +136,7 @@ static NSUInteger const kMCNumItems = 8;
     
     if (mode == MCSwipeTableViewCellModeExit) {
         _nbItems--;
-        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:cell]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:cell]] withRowAnimation:(MCSwipeTableViewCellState4 == state)? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
     }
 }
 
@@ -196,6 +145,17 @@ static NSUInteger const kMCNumItems = 8;
 - (void)reload:(id)sender {
     _nbItems++;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark - MCMyCellDelegate
+- (void)didLongPressOnCell:(MCMyCell *)cell
+{
+    if ([self.longPressedCell isEqual:cell]) {
+        return;
+    }
+    
+    [self.longPressedCell reset];
+    self.longPressedCell = cell;
 }
 
 @end
